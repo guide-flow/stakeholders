@@ -1,4 +1,5 @@
-﻿using Infrastructure.Database;
+﻿using Core.Mappers;
+using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,7 +15,7 @@ namespace Infrastructure
         public static IServiceCollection ConfigureStakeholders(this IServiceCollection services, string connectionString)
         {
             // Registers all profiles since it works on the assembly
-            //services.AddAutoMapper(typeof().Assembly);
+            services.AddAutoMapper(typeof(StakeholdersProfile));
             SetupCore(services);
             SetupInfrastructure(services,connectionString);
             return services;
