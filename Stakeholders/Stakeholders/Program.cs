@@ -1,14 +1,15 @@
 using Infrastructure;
+using Stakeholders.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DbConnection");
 if (connectionString != null) builder.Services.ConfigureStakeholders(connectionString);
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
+builder.Services.ConfigureCors();
+builder.Services.ConfigureAuth(builder.Configuration);
 
 var app = builder.Build();
 
@@ -20,7 +21,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("_allowDevClients");
 app.UseAuthorization();
 
 app.MapControllers();
