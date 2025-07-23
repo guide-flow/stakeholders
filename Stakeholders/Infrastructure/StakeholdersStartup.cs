@@ -1,5 +1,9 @@
-﻿using Core.Mappers;
+﻿using API.ServiceInterfaces;
+using Core.Domain.RepositoryInterfaces;
+using Core.Mappers;
+using Core.UseCases;
 using Infrastructure.Database;
+using Infrastructure.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,11 +27,13 @@ namespace Infrastructure
 
         private static void SetupCore(IServiceCollection services)
         {
-
+            services.AddScoped<IUserProfileService, UserProfileService>();
         }
 
         private static void SetupInfrastructure(IServiceCollection services, string connectionString)
         {
+            services.AddScoped(typeof(IUserProfileRepository),typeof(UserProfileRepository));
+
             services.AddDbContext<StakeholdersContext>(opt =>
                 opt.UseNpgsql(connectionString));
         }
