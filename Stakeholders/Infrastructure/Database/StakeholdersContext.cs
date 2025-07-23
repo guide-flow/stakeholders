@@ -41,6 +41,24 @@ namespace Infrastructure.Database
                 entity.Property(e => e.UserId).IsRequired();
 
                 entity.HasIndex(e => e.UserId).IsUnique();
+
+                entity.HasData(
+                    new UserProfile(1, "John", "Doe", "https://example.com/profiles/johndoe.jpg",
+                        "Experienced tour guide with over 10 years of guiding tours in Europe.",
+                        "Discover the world with passion.", 12345), //tour guide
+
+                    new UserProfile(2, "Jane", "Smith", "https://example.com/profiles/janesmith.jpg",
+                        "Tourist looking for the best culinary experiences across the globe.",
+                        "Eat, Travel, Enjoy.", 12346), //tourist
+
+                    new UserProfile(3, "Alice", "Johnson", "https://example.com/profiles/alicejohnson.jpg",
+                        "A passionate history buff who loves to show people hidden gems in ancient cities.",
+                        "History lives through the stories we tell.", 12347), //tour guide
+
+                    new UserProfile(4, "Bob", "Williams", "https://example.com/profiles/bobwilliams.jpg",
+                        "Tourist looking to explore unique and off-the-beaten-path destinations.",
+                        "Explore the unexplored.", 12348) //tourist
+                );
             });
         }
     }

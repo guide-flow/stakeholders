@@ -32,6 +32,12 @@ namespace Core.Domain
             ProfilePicureUrl = profilePicureUrl;
             Biography = biography;
             Moto = moto;
-        }   
+        }
+
+        public UserProfile(long Id, string firstName, string lastName, string profilePicureUrl, string biography, string moto, long UserId) : this(firstName, lastName, profilePicureUrl, biography, moto)
+        {
+            this.Id = Id;
+            this.UserId = UserId;
+        }
     }
 }
