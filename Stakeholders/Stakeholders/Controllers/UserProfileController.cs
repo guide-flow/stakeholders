@@ -12,7 +12,7 @@ namespace Stakeholders.Controllers
         [HttpGet("admin")]
         public Task<IActionResult> GetAdminProfile()
         {
-            var username = User.FindFirstValue(ClaimTypes.Name); //Iz nekog razloga ne dobavi ime
+            var username = User.FindFirstValue("name"); //Iz nekog razloga ne dobavi ime
             var role = User.FindFirstValue(ClaimTypes.Role);
             return Task.FromResult<IActionResult>(Ok(new
             {
