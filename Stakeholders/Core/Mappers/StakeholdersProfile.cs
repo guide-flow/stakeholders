@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Core.Domain;
+using API.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,9 @@ namespace Core.Mappers
 {
     public class StakeholdersProfile:Profile
     {
-        public StakeholdersProfile() { }
+        public StakeholdersProfile() 
+        {
+            CreateMap<UserProfile,UserProfileDto>().ReverseMap();
+        }
     }
 }

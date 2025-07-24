@@ -15,26 +15,30 @@ namespace Core.Domain
         public string ProfilePicureUrl { get; set; }
         public string Biography { get; set; }
         public string Moto { get; set; }
+        public string Username { get; set; } = string.Empty;
         public long UserId { get; set; }
 
         public UserProfile() {
             FirstName = string.Empty;
             LastName = string.Empty;
+            Username = string.Empty;
             ProfilePicureUrl = string.Empty;
             Biography = string.Empty;
             Moto = string.Empty;
         }
 
-        public UserProfile(string firstName, string lastName, string profilePicureUrl, string biography, string moto)
+        public UserProfile(string firstName, string lastName,string username, string profilePicureUrl, string biography, string moto)
         {
             FirstName = firstName;
             LastName = lastName;
             ProfilePicureUrl = profilePicureUrl;
             Biography = biography;
             Moto = moto;
+            Username = username;
         }
 
-        public UserProfile(long Id, string firstName, string lastName, string profilePicureUrl, string biography, string moto, long UserId) : this(firstName, lastName, profilePicureUrl, biography, moto)
+        public UserProfile(long Id, string firstName, string lastName,string username, string profilePicureUrl, string biography, string moto, long UserId) : this(firstName, lastName, username
+            ,profilePicureUrl, biography, moto)
         {
             this.Id = Id;
             this.UserId = UserId;

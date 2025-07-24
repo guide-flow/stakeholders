@@ -1,0 +1,44 @@
+﻿using Core.Domain;
+using Core.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Infrastructure.Database.Repositories
+{
+    public class UserProfileRepository : IUserProfileRepository
+    {
+        private readonly StakeholdersContext _context;
+        public UserProfileRepository(StakeholdersContext context)
+        {
+            _context = context;
+        }
+        public async Task<UserProfile> GetUserProfileAsync(string username)
+        {
+            var userProfile = await _context.UserProfiles
+                .FirstOrDefaultAsync(up => up.Username == username);
+            return userProfile;
+        }
+
+        public async Task<UserProfile> Update(UserProfile userProfile)
+        {
+            var existing = await _context.UserProfiles
+                .FirstOrDefaultAsync(up => up.Username == userProfile.Username);
+
+            if (existing == null) return null;
+
+            existing.FirstName = userProfile.FirstName;
+            existing.LastName = userProfile.LastName;
+            existing.ProfilePicureUrl = userProfile.ProfilePicureUrl;
+            existing.Biography = userProfile.Biography;
+            existing.Moto = userProfile.Moto;
+
+            await _context.SaveChangesAsync();
+            return existing;
+        }
+
+    }
+}
