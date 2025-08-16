@@ -17,6 +17,8 @@ namespace Infrastructure.Database
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.HasDefaultSchema("stakeholders");
+
             modelBuilder.Entity<UserProfile>(entity =>
             {
                 entity.HasKey(e => e.Id);

@@ -58,6 +58,5 @@ namespace Stakeholders.Controllers
             var updatedProfile = await _userProfileService.UpdateUserProfile(userProfileDto);
             return Ok(updatedProfile);
         }
-
     }
 }
