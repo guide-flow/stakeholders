@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Common;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Stakeholders.Startup
@@ -7,10 +8,9 @@ namespace Stakeholders.Startup
     {
         public static IServiceCollection ConfigureAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
-            var issuer = jwtSettings["Issuer"];
-            var audience = jwtSettings["Audience"];
-            var signingKey = jwtSettings["SigningKey"];
+            var issuer = Config.GetIssuer();
+            var audience = Config.GetAudience();
+            var signingKey = Config.GetSecretKey();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
