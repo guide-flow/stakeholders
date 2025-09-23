@@ -11,14 +11,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StakeholdersContext))]
-    [Migration("20250723202622_AddedSeedForProfiles")]
-    partial class AddedSeedForProfiles
+    [Migration("20250816145723_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("stakeholders")
                 .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -60,12 +61,16 @@ namespace Infrastructure.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserProfiles", "stakeholders");
 
                     b.HasData(
                         new
@@ -76,7 +81,8 @@ namespace Infrastructure.Migrations
                             LastName = "Doe",
                             Moto = "Discover the world with passion.",
                             ProfilePicureUrl = "https://example.com/profiles/johndoe.jpg",
-                            UserId = 12345L
+                            UserId = 12345L,
+                            Username = "JohnDoe"
                         },
                         new
                         {
@@ -86,7 +92,8 @@ namespace Infrastructure.Migrations
                             LastName = "Smith",
                             Moto = "Eat, Travel, Enjoy.",
                             ProfilePicureUrl = "https://example.com/profiles/janesmith.jpg",
-                            UserId = 12346L
+                            UserId = 12346L,
+                            Username = "JaneSmith"
                         },
                         new
                         {
@@ -96,7 +103,8 @@ namespace Infrastructure.Migrations
                             LastName = "Johnson",
                             Moto = "History lives through the stories we tell.",
                             ProfilePicureUrl = "https://example.com/profiles/alicejohnson.jpg",
-                            UserId = 12347L
+                            UserId = 12347L,
+                            Username = "AliceJohnson"
                         },
                         new
                         {
@@ -106,7 +114,8 @@ namespace Infrastructure.Migrations
                             LastName = "Williams",
                             Moto = "Explore the unexplored.",
                             ProfilePicureUrl = "https://example.com/profiles/bobwilliams.jpg",
-                            UserId = 12348L
+                            UserId = 12348L,
+                            Username = "BobWilli"
                         });
                 });
 #pragma warning restore 612, 618

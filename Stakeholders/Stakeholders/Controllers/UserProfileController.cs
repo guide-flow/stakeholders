@@ -20,7 +20,7 @@ namespace Stakeholders.Controllers
         [HttpGet("admin")]
         public Task<IActionResult> GetAdminProfile()
         {
-            var username = User.FindFirstValue("name"); //Iz nekog razloga ne dobavi ime
+            var username = User.FindFirstValue(ClaimTypes.Email);
             var role = User.FindFirstValue(ClaimTypes.Role);
             return Task.FromResult<IActionResult>(Ok(new
             {
@@ -30,10 +30,34 @@ namespace Stakeholders.Controllers
             }));
         }
         [Authorize]
+        [HttpPost("create-user-profile")]
+        public async Task<IActionResult> CreateUserProfile([FromBody] UserProfileDto userProfileDto)
+        {
+            if (userProfileDto == null)
+            {
+                return BadRequest("User profile data is required.");
+            }
+            var username = User.FindFirstValue(ClaimTypes.Email);  //Stoji email zato sto je u Identity projektu tako postavljeno, zanemari
+            if (string.IsNullOrEmpty(username))
+            {
+                return Unauthorized("Username not found in claims.");
+            }
+            userProfileDto.Username = username;
+            var subValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!long.TryParse(subValue, out var userId))
+            {
+                return BadRequest("Invalid user id in claims.");
+            }
+            userProfileDto.Id = userId;
+            var createdProfile = await _userProfileService.CreateUserProfile(userProfileDto);
+            return Ok(createdProfile);
+        }
+
+        [Authorize]
         [HttpGet("user-profile")]
         public async Task<IActionResult> GetUserProfile()
         {
-            var username = User.FindFirstValue("name");
+            var username = User.FindFirstValue(ClaimTypes.Email);
             if(string.IsNullOrEmpty(username))
             {
                 return Unauthorized("Username not found in claims.");
@@ -49,7 +73,7 @@ namespace Stakeholders.Controllers
             {
                 return BadRequest("User profile data is required.");
             }
-            var username = User.FindFirstValue("name");
+            var username = User.FindFirstValue(ClaimTypes.Email); 
             if (string.IsNullOrEmpty(username))
             {
                 return Unauthorized("Username not found in claims.");
@@ -58,6 +82,5 @@ namespace Stakeholders.Controllers
             var updatedProfile = await _userProfileService.UpdateUserProfile(userProfileDto);
             return Ok(updatedProfile);
         }
-
     }
 }

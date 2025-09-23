@@ -16,6 +16,14 @@ namespace Infrastructure.Database.Repositories
         {
             _context = context;
         }
+
+        public async Task<UserProfile> Create(UserProfile userProfile)
+        {
+            await _context.UserProfiles.AddAsync(userProfile);
+            await _context.SaveChangesAsync();
+            return userProfile;
+        }
+
         public async Task<UserProfile> GetUserProfileAsync(string username)
         {
             var userProfile = await _context.UserProfiles

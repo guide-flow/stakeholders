@@ -1,13 +1,19 @@
+using DotNetEnv;
 using Infrastructure;
 using Stakeholders.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DbConnection");
-if (connectionString != null) builder.Services.ConfigureStakeholders(connectionString);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
+
+if (builder.Environment.IsDevelopment())
+{
+    Env.Load();
+}
+
+builder.Services.ConfigureStakeholders();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureAuth(builder.Configuration);
 
