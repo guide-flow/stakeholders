@@ -1,5 +1,7 @@
 ﻿using Common;
+using Infrastructure.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Stakeholders.Startup
@@ -34,6 +36,12 @@ namespace Stakeholders.Startup
                 options.AddPolicy("authorPolicy", policy => policy.RequireRole("author"));
             });
             return services;
+        }
+
+        public static void ApplyMigrations(this IApplicationBuilder app) {
+            using var scope = app.ApplicationServices.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<StakeholdersContext>();
+            dbContext.Database.Migrate();
         }
     }
 }
