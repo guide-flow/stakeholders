@@ -16,7 +16,6 @@ namespace Core.Domain
         public string Biography { get; set; }
         public string Moto { get; set; }
         public string Username { get; set; } = string.Empty;
-        public long UserId { get; set; }
 
         public UserProfile() {
             FirstName = string.Empty;
@@ -37,11 +36,10 @@ namespace Core.Domain
             Username = username;
         }
 
-        public UserProfile(long Id, string firstName, string lastName,string username, string profilePicureUrl, string biography, string moto, long UserId) : this(firstName, lastName, username
+        public UserProfile(long Id, string firstName, string lastName,string username, string profilePicureUrl, string biography, string moto) : this(firstName, lastName, username
             ,profilePicureUrl, biography, moto)
         {
             this.Id = Id;
-            this.UserId = UserId;
         }
     }
 }
