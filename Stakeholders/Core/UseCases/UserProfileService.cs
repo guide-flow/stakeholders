@@ -22,6 +22,12 @@ namespace Core.UseCases
             _mapper = mapper;
         }
 
+        public async Task<UserProfileDto> CreateUserProfile(UserProfileDto userProfileDto)
+        {
+            var userProfile = await _userProfileRepository.Create(_mapper.Map<UserProfile>(userProfileDto));
+            return _mapper.Map<UserProfileDto>(userProfile);
+        }
+
         public async Task<UserProfileDto> GetUserProfile(string username)
         {
             var userProfile = await _userProfileRepository.GetUserProfileAsync(username);

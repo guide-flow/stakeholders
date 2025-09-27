@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_stakeholders
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5433"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    build: 
+      context: .
+      dockerfile: Stakeholders/Dockerfile
+    container_name: stakeholders
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5227:5227"
+    environment:
+      DB_CONNECTION_STRING: ${DB_CONNECTION_STRING}
+      SECRET_KEY: ${SECRET_KEY}
+      ISSUER: ${ISSUER}
+      AUDIENCE: ${AUDIENCE}
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:5227"
+volumes:
+  pgdata:

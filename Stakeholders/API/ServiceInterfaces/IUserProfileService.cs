@@ -10,6 +10,7 @@ namespace API.ServiceInterfaces
 {
     public interface IUserProfileService
     {
+        Task<UserProfileDto> CreateUserProfile(UserProfileDto userProfileDto);
         Task<UserProfileDto> GetUserProfile(string username);
         Task<UserProfileDto> UpdateUserProfile(UserProfileDto userProfileDto);
     }

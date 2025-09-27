@@ -8,6 +8,7 @@ namespace Core.Domain.RepositoryInterfaces
 {
     public interface IUserProfileRepository
     {
+        Task<UserProfile> Create(UserProfile userProfile);
         Task<UserProfile> GetUserProfileAsync(string username);
         Task<UserProfile> Update(UserProfile userProfile);
     }
