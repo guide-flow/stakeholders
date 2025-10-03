@@ -1,8 +1,11 @@
 ﻿using Common;
 using Infrastructure.Database;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Stakeholders.Authorization;
 
 namespace Stakeholders.Startup
 {
@@ -10,24 +13,8 @@ namespace Stakeholders.Startup
     {
         public static IServiceCollection ConfigureAuth(this IServiceCollection services, IConfiguration configuration)
         {
-            var issuer = Config.GetIssuer();
-            var audience = Config.GetAudience();
-            var signingKey = Config.GetSecretKey();
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = issuer,
-                        ValidAudience = audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(signingKey))
-                    };
-                });
+            services.AddAuthentication("HeaderAuth")
+            .AddScheme<AuthenticationSchemeOptions, HeaderAuthenticationHandler>("HeaderAuth", null);
 
             services.AddAuthorization(options =>
             {
@@ -35,6 +22,8 @@ namespace Stakeholders.Startup
                 options.AddPolicy("touristPolicy", policy => policy.RequireRole("tourist"));
                 options.AddPolicy("authorPolicy", policy => policy.RequireRole("author"));
             });
+
+
             return services;
         }
 

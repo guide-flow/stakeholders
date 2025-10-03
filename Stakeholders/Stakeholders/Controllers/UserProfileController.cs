@@ -37,13 +37,13 @@ namespace Stakeholders.Controllers
             {
                 return BadRequest("User profile data is required.");
             }
-            var username = User.FindFirstValue(ClaimTypes.Email);  //Stoji email zato sto je u Identity projektu tako postavljeno, zanemari
+            var username = Request.Headers["X-User-Email"].ToString();
             if (string.IsNullOrEmpty(username))
             {
                 return Unauthorized("Username not found in claims.");
             }
             userProfileDto.Username = username;
-            var subValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var subValue = Request.Headers["X-User-Id"].ToString();
             if (!long.TryParse(subValue, out var userId))
             {
                 return BadRequest("Invalid user id in claims.");
@@ -57,8 +57,8 @@ namespace Stakeholders.Controllers
         [HttpGet("user-profile")]
         public async Task<IActionResult> GetUserProfile()
         {
-            var username = User.FindFirstValue(ClaimTypes.Email);
-            if(string.IsNullOrEmpty(username))
+            var username = Request.Headers["X-User-Email"].ToString();
+            if (string.IsNullOrEmpty(username))
             {
                 return Unauthorized("Username not found in claims.");
             }
@@ -73,7 +73,7 @@ namespace Stakeholders.Controllers
             {
                 return BadRequest("User profile data is required.");
             }
-            var username = User.FindFirstValue(ClaimTypes.Email); 
+            var username = Request.Headers["X-User-Email"].ToString();
             if (string.IsNullOrEmpty(username))
             {
                 return Unauthorized("Username not found in claims.");

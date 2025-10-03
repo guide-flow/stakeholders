@@ -6,19 +6,4 @@ public static class Config
     {
         return Environment.GetEnvironmentVariable("DB_CONNECTION_STRING_STAKEHOLDER")!;
     }
-
-    public static string GetSecretKey()
-    {
-        return Environment.GetEnvironmentVariable("SECRET_KEY")!;
-    }
-
-    public static string GetIssuer()
-    {
-        return Environment.GetEnvironmentVariable("ISSUER")!;
-    }
-
-    public static string GetAudience()
-    {
-        return Environment.GetEnvironmentVariable("AUDIENCE")!;
-    }
 }
