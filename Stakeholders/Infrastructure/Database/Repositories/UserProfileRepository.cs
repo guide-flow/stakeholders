@@ -48,5 +48,12 @@ namespace Infrastructure.Database.Repositories
             return existing;
         }
 
+        public async Task<UserProfile> GetUserProfileByIdAsync(long id)
+        {
+            var userProfile = await _context.UserProfiles
+                .FirstOrDefaultAsync(up => up.Id == id);
+            return userProfile;
+        }
+
     }
 }

@@ -65,6 +65,19 @@ namespace Stakeholders.Controllers
             var userDto = await _userProfileService.GetUserProfile(username);
             return Ok(userDto);
         }
+
+        [Authorize]
+        [HttpGet("user-profile/{userId}")]
+        public async Task<IActionResult> GetUserProfileById(string userId)
+        {
+            var userDto = await _userProfileService.GetUserProfileById(userId);
+            if (userDto == null)
+            {
+                return NotFound($"User profile with ID {userId} not found.");
+            }
+            return Ok(userDto);
+        }
+
         [Authorize]
         [HttpPut("user-profile")]
         public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileDto userProfileDto)
