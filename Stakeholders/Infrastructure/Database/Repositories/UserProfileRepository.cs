@@ -40,7 +40,7 @@ namespace Infrastructure.Database.Repositories
 
             existing.FirstName = userProfile.FirstName;
             existing.LastName = userProfile.LastName;
-            existing.ProfilePicureUrl = userProfile.ProfilePicureUrl;
+            existing.ProfilePictureUrl = userProfile.ProfilePictureUrl;
             existing.Biography = userProfile.Biography;
             existing.Moto = userProfile.Moto;
 

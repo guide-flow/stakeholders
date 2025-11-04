@@ -49,6 +49,18 @@ namespace Stakeholders.Controllers
                 return BadRequest("Invalid user id in claims.");
             }
             userProfileDto.Id = userId;
+
+            if (!string.IsNullOrEmpty(userProfileDto.ImageBase64))
+            {
+                var imageBytes = Convert.FromBase64String(userProfileDto.ImageBase64);
+                var fileName = $"{Guid.NewGuid()}.jpg";
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+                userProfileDto.ProfilePictureUrl = $"/images/users/{fileName}";
+            }
+
             var createdProfile = await _userProfileService.CreateUserProfile(userProfileDto);
             return Ok(createdProfile);
         }

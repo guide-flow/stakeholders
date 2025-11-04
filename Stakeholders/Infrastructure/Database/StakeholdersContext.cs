@@ -31,7 +31,7 @@ namespace Infrastructure.Database
                       .IsRequired()
                       .HasMaxLength(100);
 
-                entity.Property(e => e.ProfilePicureUrl)
+                entity.Property(e => e.ProfilePictureUrl)
                       .HasMaxLength(300);
 
                 entity.Property(e => e.Biography)
