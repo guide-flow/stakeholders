@@ -40,12 +40,19 @@ namespace Infrastructure.Database.Repositories
 
             existing.FirstName = userProfile.FirstName;
             existing.LastName = userProfile.LastName;
-            existing.ProfilePicureUrl = userProfile.ProfilePicureUrl;
+            existing.ProfilePictureUrl = userProfile.ProfilePictureUrl;
             existing.Biography = userProfile.Biography;
             existing.Moto = userProfile.Moto;
 
             await _context.SaveChangesAsync();
             return existing;
+        }
+
+        public async Task<UserProfile> GetUserProfileByIdAsync(long id)
+        {
+            var userProfile = await _context.UserProfiles
+                .FirstOrDefaultAsync(up => up.Id == id);
+            return userProfile;
         }
 
     }

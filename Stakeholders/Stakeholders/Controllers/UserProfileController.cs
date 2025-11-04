@@ -49,6 +49,18 @@ namespace Stakeholders.Controllers
                 return BadRequest("Invalid user id in claims.");
             }
             userProfileDto.Id = userId;
+
+            if (!string.IsNullOrEmpty(userProfileDto.ImageBase64))
+            {
+                var imageBytes = Convert.FromBase64String(userProfileDto.ImageBase64);
+                var fileName = $"{Guid.NewGuid()}.jpg";
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+                userProfileDto.ProfilePictureUrl = $"/images/users/{fileName}";
+            }
+
             var createdProfile = await _userProfileService.CreateUserProfile(userProfileDto);
             return Ok(createdProfile);
         }
@@ -65,6 +77,19 @@ namespace Stakeholders.Controllers
             var userDto = await _userProfileService.GetUserProfile(username);
             return Ok(userDto);
         }
+
+        [Authorize]
+        [HttpGet("user-profile/{userId}")]
+        public async Task<IActionResult> GetUserProfileById(string userId)
+        {
+            var userDto = await _userProfileService.GetUserProfileById(userId);
+            if (userDto == null)
+            {
+                return NotFound($"User profile with ID {userId} not found.");
+            }
+            return Ok(userDto);
+        }
+
         [Authorize]
         [HttpPut("user-profile")]
         public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileDto userProfileDto)

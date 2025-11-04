@@ -39,5 +39,14 @@ namespace Core.UseCases
             var userProfile = await _userProfileRepository.Update(_mapper.Map<UserProfile>(userProfileDto));
             return _mapper.Map<UserProfileDto>(userProfile);
         }
+        public async Task<UserProfileDto> GetUserProfileById(string id)
+        {
+            if (!long.TryParse(id, out var userId))
+            {
+                throw new ArgumentException("Invalid user id.");
+            }
+            var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userId);
+            return _mapper.Map<UserProfileDto>(userProfile);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Core.Domain
         public long Id { get; protected set; }
         public string FirstName {  get; set; }
         public string LastName { get; set; }
-        public string ProfilePicureUrl { get; set; }
+        public string ProfilePictureUrl { get; set; }
         public string Biography { get; set; }
         public string Moto { get; set; }
         public string Username { get; set; } = string.Empty;
@@ -21,7 +21,7 @@ namespace Core.Domain
             FirstName = string.Empty;
             LastName = string.Empty;
             Username = string.Empty;
-            ProfilePicureUrl = string.Empty;
+            ProfilePictureUrl = string.Empty;
             Biography = string.Empty;
             Moto = string.Empty;
         }
@@ -30,7 +30,7 @@ namespace Core.Domain
         {
             FirstName = firstName;
             LastName = lastName;
-            ProfilePicureUrl = profilePicureUrl;
+            ProfilePictureUrl = profilePicureUrl;
             Biography = biography;
             Moto = moto;
             Username = username;

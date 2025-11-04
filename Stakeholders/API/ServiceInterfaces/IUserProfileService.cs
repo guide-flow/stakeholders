@@ -13,5 +13,6 @@ namespace API.ServiceInterfaces
         Task<UserProfileDto> CreateUserProfile(UserProfileDto userProfileDto);
         Task<UserProfileDto> GetUserProfile(string username);
         Task<UserProfileDto> UpdateUserProfile(UserProfileDto userProfileDto);
+        Task<UserProfileDto> GetUserProfileById(string id);
     }
 }
