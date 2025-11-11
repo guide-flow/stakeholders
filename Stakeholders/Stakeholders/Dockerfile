@@ -13,4 +13,11 @@ RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish ./
+
+# Create directory for persistent image storage
+RUN mkdir -p /app/wwwroot/images/users
+
+# Declare volume for persistent storage
+VOLUME ["/app/wwwroot/images"]
+
 ENTRYPOINT [ "dotnet", "Stakeholders.dll" ]
