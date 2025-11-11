@@ -40,7 +40,13 @@ namespace Infrastructure.Database.Repositories
 
             existing.FirstName = userProfile.FirstName;
             existing.LastName = userProfile.LastName;
-            existing.ProfilePictureUrl = userProfile.ProfilePictureUrl;
+
+            // Only update ProfilePictureUrl if a new value is provided
+            if (!string.IsNullOrEmpty(userProfile.ProfilePictureUrl))
+            {
+                existing.ProfilePictureUrl = userProfile.ProfilePictureUrl;
+            }
+
             existing.Biography = userProfile.Biography;
             existing.Moto = userProfile.Moto;
 

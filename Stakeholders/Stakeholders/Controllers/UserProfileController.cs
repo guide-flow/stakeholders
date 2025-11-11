@@ -104,6 +104,19 @@ namespace Stakeholders.Controllers
                 return Unauthorized("Username not found in claims.");
             }
             userProfileDto.Username = username;
+
+            // Handle image upload if provided
+            if (!string.IsNullOrEmpty(userProfileDto.ImageBase64))
+            {
+                var imageBytes = Convert.FromBase64String(userProfileDto.ImageBase64);
+                var fileName = $"{Guid.NewGuid()}.jpg";
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, fileName);
+                await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+                userProfileDto.ProfilePictureUrl = $"/images/users/{fileName}";
+            }
+
             var updatedProfile = await _userProfileService.UpdateUserProfile(userProfileDto);
             return Ok(updatedProfile);
         }
