@@ -12,5 +12,6 @@ namespace Core.Domain.RepositoryInterfaces
         Task<UserProfile> GetUserProfileAsync(string username);
         Task<UserProfile> Update(UserProfile userProfile);
         Task<UserProfile> GetUserProfileByIdAsync(long id);
+        Task<List<UserProfile>> GetAllUserProfilesAsync();
     }
 }

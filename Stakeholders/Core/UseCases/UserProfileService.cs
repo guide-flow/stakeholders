@@ -48,5 +48,11 @@ namespace Core.UseCases
             var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(userId);
             return _mapper.Map<UserProfileDto>(userProfile);
         }
+
+        public async Task<List<UserProfileDto>> GetAllUserProfiles()
+        {
+            var userProfiles = await _userProfileRepository.GetAllUserProfilesAsync();
+            return _mapper.Map<List<UserProfileDto>>(userProfiles);
+        }
     }
 }

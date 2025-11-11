@@ -91,6 +91,14 @@ namespace Stakeholders.Controllers
         }
 
         [Authorize]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUserProfiles()
+        {
+            var users = await _userProfileService.GetAllUserProfiles();
+            return Ok(users);
+        }
+
+        [Authorize]
         [HttpPut("user-profile")]
         public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileDto userProfileDto)
         {

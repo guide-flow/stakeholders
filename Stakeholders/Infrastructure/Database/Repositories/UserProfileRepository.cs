@@ -61,5 +61,10 @@ namespace Infrastructure.Database.Repositories
             return userProfile;
         }
 
+        public async Task<List<UserProfile>> GetAllUserProfilesAsync()
+        {
+            return await _context.UserProfiles.ToListAsync();
+        }
+
     }
 }
